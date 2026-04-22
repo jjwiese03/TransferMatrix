@@ -1,0 +1,10 @@
+name = "TransferMatrix"
+uuid = "47f1d07d-2ec8-4ff8-bcef-9f0fb6ec0473"
+version = "0.1.0"
+authors = ["Dominik Bergermann <dominik.bergermann@gmx.de>"]
+
+[deps]
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+
+[compat]
+FFTW = "1.10.0"
