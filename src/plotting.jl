@@ -1,4 +1,6 @@
 
+export showField, showCross
+
 function showField(E::Array{ComplexF64}; kwargs...)
     for i in axes(E,3)
         display(heatmap(abs.(E[:,:,i]); right_margin=4Plots.mm,kwargs...))

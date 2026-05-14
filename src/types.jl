@@ -1,5 +1,5 @@
 
-
+export Coordinates, Modes, GrandPropagationMatrix
 
 struct Coordinates
     X::Vector{Float64}

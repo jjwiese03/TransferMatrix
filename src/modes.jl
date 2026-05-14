@@ -1,4 +1,8 @@
 
+export mode, modeDecomp, axionModes, modes2field
+
+
+
 
 function mode(coords::Coordinates,m::Integer,l::Integer)
     kr = besselj_zero(l,m)/coords.diskR
@@ -29,7 +33,7 @@ const modeDecomposition = const decomp = const field2modes = modeDecomp
 
 
 
-function axionModes(coords::Coordinates,modes::Modes,f::Real; velocity_x::Real=0)
+function axionModes(coords::Coordinates,modes::Modes,f::Real,velocity_x::Real)
     d = fieldDims(modes)
     Ea = zeros(ComplexF64,length(coords.X),length(coords.X),d)
     Ea[:,:,1+Int(d==3)] .= 1; Ea .*= coords.diskmaskin
@@ -40,6 +44,14 @@ function axionModes(coords::Coordinates,modes::Modes,f::Real; velocity_x::Real=0
 
         for (i,x) in enumerate(coords.X); Ea[i,:,:] .*= cis(k_a*x*velocity_x); end
     end
+
+    return modeDecomp(Ea,modes)
+end
+
+function axionModes(coords::Coordinates,modes::Modes)
+    d = fieldDims(modes)
+    Ea = zeros(ComplexF64,length(coords.X),length(coords.X),d)
+    Ea[:,:,1+Int(d==3)] .= 1; Ea .*= coords.diskmaskin
 
     return modeDecomp(Ea,modes)
 end

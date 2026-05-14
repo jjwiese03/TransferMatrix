@@ -1,4 +1,9 @@
 
+export propagate!, tiltField!, propMatFreeSpace, propMatWaveGuide, propagationMatrix
+
+
+
+
 function propagate!(E0::Matrix{ComplexF64},k0::Number,coords::Coordinates,dz::Real)
     fft!(E0)
     @. E0 *= cis(-conj(sqrt(k0^2-coords.kR))*dz)
@@ -20,7 +25,7 @@ function tiltField!(E0::Matrix{ComplexF64},k0::Number,coords::Coordinates,
         tiltx::Real,tilty::Real)
     
     for j in eachindex(coords.X), i in eachindex(coords.X)
-        E0[i,j] *= exp(-1im*k0*(tiltx*coords.X[i]+tilty*coords.X[j]))
+        E0[i,j] *= cis(-k0*(tiltx*coords.X[i]+tilty*coords.X[j]))
     end
 
     return

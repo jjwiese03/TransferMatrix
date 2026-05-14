@@ -6,7 +6,7 @@ using FFTW: ifftshift, fft!, ifft!
 import Base.getindex, Base.setindex!, Base.size, Base.axes
 
 include("types.jl")
-include("coodinates.jl")
+include("coordinates.jl")
 include("modes.jl")
 include("propagation.jl")
 include("transfer_matrix_1d.jl")
