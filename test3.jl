@@ -244,6 +244,20 @@ end
 
 plot(freqs/1e9,abs2.(B)'; label=["L=-1" "L= 0" "L= 1"])
 
+function G(ML,n1,n2)
+    g = zeros(ComplexF64,2ML,2ML)
+
+    g[1:ML,1:ML] += I(ML)*(n2+n1)/2n2
+    g[ML+1:2ML,ML+1:2ML] += I(ML)*(n2+n1)/2n2
+
+    g[ML+1:2ML,1:ML] += I(ML)*(n2-n1)/2n2
+    g[1:ML,ML+1:2ML] += I(ML)*(n2-n1)/2n2
+
+    return g
+end
+
+
+
 
 M = 1; L = 1
 
@@ -273,7 +287,7 @@ Pv_ = zeros(ComplexF64,2ML,2ML)
 # T03 = G2*P2*G1*P1*G0*P0
 # MM = T13*S0-T23*S1+T33*S2
 @time for i in eachindex(freqs)
-    Pv  = propagationCoeffs(freqs[i],7e-3,0,-tiltx,1.0,modes,coords)
+    Pv  = propagationCoeffs(freqs[i],7e-3,tiltx,-0tiltx,1.0,modes,coords)
     Pv_[1:ML,1:ML] .= Pv; Pv_[ML+1:2ML,ML+1:2ML] .= inv(Pv)
     # Pv = cispi(+2*freqs[i]*7e-3/c0)
     # Pv_ = diagm([fill(Pv,ML); fill(conj(Pv),ML)])
