@@ -279,8 +279,8 @@ G0 = G(ML,nm,1)
 Gv = G(ML,1,nd)
 Gd = G(ML,nd,1)
 
-S  =  A/2*I(2ML)*diagm([ax; ax])
-S0 = A0/2*I(2ML)*diagm([ax; ax])
+S  =  A/2*I(2ML)#*diagm([ax; ax])
+S0 = A0/2*I(2ML)#*diagm([ax; ax])
 
 Pv_ = zeros(ComplexF64,2ML,2ML)
 
@@ -303,7 +303,7 @@ Pv_ = zeros(ComplexF64,2ML,2ML)
 
     T = T13*G0
 
-    MM = T13*S0 - T23*S + T33*S
+    MM = (T13*S0 - T23*S + T33*S)
 
     M11 = MM[1:ML,1:ML]
     M12 = MM[1:ML,ML+1:2ML]
@@ -315,7 +315,7 @@ Pv_ = zeros(ComplexF64,2ML,2ML)
     T21 = T[ML+1:2ML,1:ML]
     T22 = T[ML+1:2ML,ML+1:2ML]
 
-    B[:,i] = ((M11+M12) - T12*inv(T22)*(M21+M22))*ones(ML)
+    B[:,i] = ((M11+M12) - T12*inv(T22)*(M21+M22))*ax#*ones(ML)
 end; plot(freqs/1e9,abs2.(B)'; label=["L=-1" "L= 0" "L= 1"])
 
 
