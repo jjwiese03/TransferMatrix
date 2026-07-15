@@ -1,7 +1,4 @@
-
-
-
-
+export transfer_matrix_3d
 
 function transfer_matrix_3d(::Type{Dist},distances::AbstractVector{<:Real},
         tiltsx,tiltsy,gpm::GPM,f::Int;

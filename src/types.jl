@@ -128,7 +128,7 @@ mutable struct GrandPropagationMatrix
     ax::ScaledInterpolation
     P::ScaledInterpolation
 
-    function GrandPropagationMatrix(freqs,distances,tilts,modes,coords; 
+    function GrandPropagationMatrix(freqs::Union{Real,AbstractVector{<:Real}},distances::AbstractVector{<:Real},tilts::AbstractVector{<:Real},modes,coords; 
             eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)
 
         M = modes.M; L = 2modes.L+1; ML = M*L
