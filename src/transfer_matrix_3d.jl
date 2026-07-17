@@ -16,6 +16,18 @@ function transfer_matrix_3d(::Type{Dist},distances::AbstractVector{<:Real},
     ϵ  = eps*(1.0-1.0im*tand); nd = sqrt(ϵ); nm = complex(nm); ϵm = nm^2
     A  = 1-1/ϵ; A0 = 1-1/ϵm
 
+    function G(ML,n1,n2)
+        g = zeros(ComplexF64,2ML,2ML)
+
+        g[1:ML,1:ML] += I(ML)*(n2+n1)/2n2
+        g[ML+1:2ML,ML+1:2ML] += I(ML)*(n2+n1)/2n2
+
+        g[ML+1:2ML,1:ML] += I(ML)*(n2-n1)/2n2
+        g[1:ML,ML+1:2ML] += I(ML)*(n2-n1)/2n2
+
+        return g
+    end
+
     G0 = G(ML,nm,1)
     Gv = G(ML,1,nd)
     Gd = G(ML,nd,1)

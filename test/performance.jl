@@ -14,8 +14,8 @@ modes = Modes(coords,M,L);
 gpm = GrandPropagationMatrix(freqs,range(6e-3,8e-3,3),tilts,modes,coords); 
 
 
-transfer_matrix_3d(Dist, dists, 0, 0, gpm, freqs[1])
+# transfer_matrix_3d(Dist, dists, 0, 0, gpm, freqs[1])
 
-b = @benchmark transfer_matrix_3d(Dist, dists, 0, 0, gpm, freqs[1]) samples=20 evals=1
+b = @benchmark transfer_matrix_3d(Dist, dists, 0, 0, gpm, Int64(freqs[1])) samples=20 evals=1
 
 

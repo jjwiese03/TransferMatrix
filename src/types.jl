@@ -108,14 +108,6 @@ Base.size(m::Modes) = size(m.modes)
 Base.size(m::Modes,d::Integer) = size(m.modes,d)
 Base.axes(m::Modes,d::Integer) = axes(m.modes,d)
 
-
-
-
-
-
-
-
-
 mutable struct GrandPropagationMatrix
     freqs::Union{Real,AbstractVector{Float64}}
     # thickness::Float64
