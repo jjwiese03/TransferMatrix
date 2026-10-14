@@ -49,8 +49,6 @@ end
 
 
 
-
-
 mutable struct Modes
     M::Int64
     L::Int64
@@ -84,6 +82,7 @@ mutable struct Modes
         return Modes(M,L,modes,kt)
     end
 end
+
 
 fieldDims(modes::Modes) = size(modes.modes,3)
 
@@ -156,14 +155,14 @@ mutable struct GrandPropagationMatrix
 
         # Spline for distance interpolation
         for i in eachindex(freqs), j in eachindex(distances)
-            p_d[i,j,:,:] .= propagationCoeffs(freqs[i],distances[j],0.0,0.0,1.0,modes,coords)
+            p_d[i,j,:,:] .= propagationCoeffs(freqs[i],distances[j], 0.0, 0.0, 1.0, modes, coords)
         end
         itpP_d = interpolate(p_d,(ni,bc,ni,ni))
         sitpP_d = scale(itpP_d,1:length(freqs),distances,1:ML,1:ML)
 
         # Spline for disk propagation
         for i in eachindex(freqs), j in eachindex(distances)
-            p_disk[i,j,:,:] .= propagationCoeffs(freqs[i],distances[j],0.0,0.0,eps,modes,coords)
+            p_disk[i,j,:,:] .= propagationCoeffs(freqs[i],distances[j], 0.0, 0.0, eps, modes, coords)
         end
         itpP_disk = interpolate(p_disk,(ni,bc,ni,ni))
         sitpP_disk = scale(itpP_disk,1:length(freqs),distances,1:ML,1:ML)

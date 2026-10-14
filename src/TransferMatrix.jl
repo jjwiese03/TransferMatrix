@@ -1,7 +1,7 @@
 module TransferMatrix
 
 using LinearAlgebra, SpecialFunctions, FunctionZeros, Interpolations
-using FFTW: ifftshift, fft!, ifft!
+using FFTW: ifftshift, fft!, ifft!, plan_fft
 
 import Base.getindex, Base.setindex!, Base.size, Base.axes
 
