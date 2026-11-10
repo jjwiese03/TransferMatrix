@@ -1,5 +1,5 @@
-GPU: ./src/GPU_acc/module.cpp
-	g++-15 -std=c++23 -shared -fPIC -I ./include -o ./src/GPU_acc/module.so ./src/GPU_acc/module.cpp
+GPU: ./src/GPU_acc/module.cu
+	nvcc -std=c++17 -shared -Xcompiler -fPIC -o ./src/GPU_acc/module.so ./src/GPU_acc/module.cu -lcufft
 
 julia_test:
 	./test/runtest.jl

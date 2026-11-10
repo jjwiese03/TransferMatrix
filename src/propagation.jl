@@ -43,7 +43,7 @@ function propagate!(E0::Matrix{ComplexF64},
     if dz != 0
         propagate!(E0,k0,coords,dz)
     end
-    if tiltx + tilty != tiltx - tilty
+    if tiltx != 0 || tilty != 0
         tiltField!(E0,k0,coords,tiltx,tilty)
     end
 
@@ -57,7 +57,7 @@ function propagate!(FFT_plan, E0::Matrix{ComplexF64}, k0::Number,
         @. Ek *= cis(-conj(sqrt(k0^2 - coords.kR) * dz))
         E0 .= FFT_plan \ Ek                      # inverse FFT und zurück in E0 kopieren
     end
-    if tiltx + tilty != tiltx - tilty
+    if tiltx != 0 || tilty != 0
         tiltField!(E0, k0, coords, tiltx, tilty)
     end
     return
@@ -86,51 +86,6 @@ function propagationCoeffs(freq::Real,
         propagate!(fft_plan,mode,k0,coords,distance,tiltx,tilty)
         mode .*= coords.diskmaskin
         coeffs = modeDecomp(mode,modes)
-        @views copyto!(P[:,ml],coeffs)
-    end
-
-    return P
-end
-
-
-
-function propagationCoeffs(freq::Real,
-        distance::Real,
-        tiltx::Real,
-        tilty::Real,
-        eps::Number,
-        modes::Modes,
-        coords::Coordinates)
-    """
-    Constructs the MLxML propagation matrix for a set of modes, given a frequency, distance, tilts, and permittivity.
-    """
-
-    ML = modes.M*(2modes.L+1)
-    P = Array{ComplexF64}(undef,ML,ML)
-
-    k0 = 2π*freq/c0*sqrt(eps)
-
-    fft_plan = plan_fft(modes[:,:,1,1])
-
-    for ml in 1:ML
-        mode = copy(modes[:,:,1,ml])
-
-        if dz != 0
-            fft!(mode)
-            @. mode *= cis(-conj(sqrt(k0^2-coords.kR)*distance))
-            ifft!(mode)
-        end
-        if tiltx + tilty != tiltx - tilty
-            mode .*= cis.(-k0*(tiltx*coords.R .* cos.(coords.Φ) + tilty*coords.R .* sin.(coords.Φ)))
-        end
-
-        mode .*= coords.diskmaskin
-
-        N = sqrt(sum(abs2.(E)))
-        coeffs = zeros(ComplexF64,ML)
-
-        for ml in 1:ML; coeffs[ml] = sum(@. conj(modes.modes[:,:,:,ml])*E)/N; end
-        
         @views copyto!(P[:,ml],coeffs)
     end
 
